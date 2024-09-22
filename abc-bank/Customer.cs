@@ -43,6 +43,10 @@ namespace abc_bank
 
         public String GetStatement() 
         {
+            if(accounts.Count < 1)
+            {
+                return string.Format("Customer {0} has no accounts", GetName());
+            }
             StringBuilder sb = new StringBuilder();
             sb.AppendLine(string.Format("Statement for {0}", GetName()));
             foreach (var account in accounts)
@@ -57,9 +61,9 @@ namespace abc_bank
             return sb.ToString();
         }
 
-        //private String ToDollars(double d)
-        //{
-        //    return String.Format("$%,.2f", Math.Abs(d));
-        //}
+        public List<Account> GetAccounts()
+        {
+            return accounts;
+        }
     }
 }

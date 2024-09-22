@@ -38,6 +38,19 @@ namespace abc_bank_tests
         }
 
         [TestMethod]
+        public void TestNoAccount()
+        {
+
+            Customer henry = new Customer("Henry");
+
+            string expected = "Customer Henry has no accounts";
+            string actual = henry.GetStatement();
+
+            Assert.AreEqual(expected, actual);
+
+        }
+
+        [TestMethod]
         public void TestOneAccount()
         {
             Customer oscar = new Customer("Oscar").OpenAccount(new SavingsAccount());

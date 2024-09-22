@@ -40,26 +40,5 @@ namespace abc_bank
 
         public abstract decimal InterestCalculation();
         public abstract AccountType getAccountType();
-
-        public double sumTransactions()
-        {
-            throw new NotImplementedException();
-           
-        }
-
-
-        //private double CheckIfTransactionsExist(bool checkAll) 
-        //{
-        //    double amount = 0.0;
-        //    foreach (Transaction t in transactions)
-        //        amount += t.amount;
-        //    return amount;
-        //}
-
-        //TODO: implement in concrete classes.  
-        //public int GetAccountType()
-        //{
-        //    return accountType;
-        //}
     }
 }

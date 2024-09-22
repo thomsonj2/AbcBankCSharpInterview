@@ -8,52 +8,46 @@ namespace abc_bank
 {
     public class Bank
     {
-        private List<Customer> customers;
+        private List<Customer> Customers { get; }
 
         public Bank()
         {
-            customers = new List<Customer>();
+            Customers = new List<Customer>();
         }
 
         public void AddCustomer(Customer customer)
         {
-            customers.Add(customer);
+            Customers.Add(customer);
         }
 
-        public String CustomerSummary() {
-            String summary = "Customer Summary";
-            foreach (Customer c in customers)
-                summary += "\n - " + c.GetName() + " (" + format(c.GetNumberOfAccounts(), "account") + ")";
-            return summary;
-        }
-
-        //Make sure correct plural of word is created based on the number passed in:
-        //If number passed in is 1 just return the word otherwise add an 's' at the end
-        private String format(int number, String word)
+        public string GetCustomerAccountSummary()
         {
-            return number + " " + (number == 1 ? word : word + "s");
+            Dictionary<string, int> customerSummary = Customers.ToDictionary(c => c.GetName(), c => c.GetNumberOfAccounts());
+            StringBuilder sb = new StringBuilder();
+            foreach (var key in customerSummary.Keys)
+            {
+                sb.AppendLine(string.Format("Customer: {0}, Accounts: {1}", key, customerSummary[key]));
+            }
+            return sb.ToString();
         }
 
-        public double totalInterestPaid() {
-            throw new NotImplementedException();
-            //double total = 0;
-            //foreach(Customer c in customers)
-            //    total += c.TotalInterestEarned();
-            //return total;
-        }
-
-        public String GetFirstCustomer()
+        public List<Customer> GetCustomerList()
         {
-            try
+            return Customers;
+        }
+
+        public decimal totalInterestPaid() {
+            decimal totalInterest = 0;
+
+            foreach (var customer in Customers)
             {
-                customers = null;
-                return customers[0].GetName();
+                foreach (var account in customer.GetAccounts())
+                {
+                    totalInterest += account.InterestCalculation();
+                }
             }
-            catch (Exception e)
-            {
-                Console.Write(e.StackTrace);
-                return "Error";
-            }
+
+            return totalInterest;
         }
     }
 }

@@ -7,11 +7,8 @@ namespace abc_bank_tests
     [TestClass]
     public class BankTest
     {
-
-        private static readonly double DOUBLE_DELTA = 1e-15;
-
         [TestMethod]
-        public void CustomerSummary() 
+        public void CustomerSummaryOneAccount() 
         {
             Bank bank = new Bank();
             Customer john = new Customer("John");
@@ -19,7 +16,60 @@ namespace abc_bank_tests
             john.OpenAccount(account);
             bank.AddCustomer(john);
 
-            Assert.AreEqual("Customer Summary\n - John (1 account)", bank.CustomerSummary());
+            string acutal = bank.GetCustomerAccountSummary();
+            string expected = "Customer: John, Accounts: 1\r\n";
+            Assert.AreEqual(expected, acutal);
+
+
+        }
+
+        [TestMethod]
+        public void CustomerSummaryTwoAccounts()
+        {
+            Bank bank = new Bank();
+            Customer john = new Customer("John");
+            Account account = new CheckingAccount();
+            john.OpenAccount(account);
+
+            Customer larry = new Customer("Larry");
+            larry.OpenAccount(new CheckingAccount());
+            larry.OpenAccount(new SavingsAccount());
+
+            bank.AddCustomer(john);
+            bank.AddCustomer(larry);
+
+            string acutal = bank.GetCustomerAccountSummary();
+            string expected = "Customer: John, Accounts: 1\r\nCustomer: Larry, Accounts: 2\r\n";
+            Assert.AreEqual(expected, acutal);
+
+
+        }
+
+        [TestMethod]
+        public void TotalInterestCalculation()
+        {
+            Bank bank = new Bank();
+            Customer john = new Customer("John");
+            Account johnAccount = new CheckingAccount();
+            johnAccount.Deposit(2000);
+            john.OpenAccount(johnAccount);
+
+            Customer larry = new Customer("Larry");
+            Account larryAccount1 = new SavingsAccount();
+            larryAccount1.Deposit(1500);
+            larry.OpenAccount(larryAccount1);
+            MaxiSavingAccount larryAccount2 = new MaxiSavingAccount();
+            larryAccount2.Deposit(3000);
+            larry.OpenAccount(larryAccount2);
+
+            bank.AddCustomer(john);
+            bank.AddCustomer(larry);
+
+            decimal acutal = bank.totalInterestPaid();
+            decimal expected = 0.8328767123287671232876712329M;
+            Assert.AreEqual(expected, acutal);
+
+
         }
 
         [TestMethod]
@@ -71,5 +121,7 @@ namespace abc_bank_tests
 
             Assert.AreEqual(expectedInterest, interest);
         }
+
+
     }
 }
