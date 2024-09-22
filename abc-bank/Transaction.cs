@@ -8,14 +8,17 @@ namespace abc_bank
 {
     public class Transaction
     {
-        public readonly double amount;
+        public decimal Amount { get; }
+        public DateTime TimeStamp { get; }
+        public TransactionType Type { get; }
 
         private DateTime transactionDate;
 
-        public Transaction(double amount) 
+        public Transaction(decimal amount, TransactionType type, DateTime timeStamp) 
         {
-            this.amount = amount;
-            this.transactionDate = DateProvider.getInstance().Now();
+            TimeStamp = timeStamp;
+            Amount = amount;
+            Type = type;
         }
     }
 }

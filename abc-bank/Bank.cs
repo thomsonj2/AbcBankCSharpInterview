@@ -35,10 +35,11 @@ namespace abc_bank
         }
 
         public double totalInterestPaid() {
-            double total = 0;
-            foreach(Customer c in customers)
-                total += c.TotalInterestEarned();
-            return total;
+            throw new NotImplementedException();
+            //double total = 0;
+            //foreach(Customer c in customers)
+            //    total += c.TotalInterestEarned();
+            //return total;
         }
 
         public String GetFirstCustomer()

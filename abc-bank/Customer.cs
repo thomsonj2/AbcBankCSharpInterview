@@ -33,53 +33,55 @@ namespace abc_bank
             return accounts.Count;
         }
 
-        public double TotalInterestEarned() 
+        public decimal TotalInterestEarned() 
         {
-            double total = 0;
+            decimal total = 0;
             foreach (Account a in accounts)
-                total += a.InterestEarned();
+                total += a.InterestCalculation();
             return total;
         }
 
         public String GetStatement() 
         {
-            String statement = null;
-            statement = "Statement for " + name + "\n";
-            double total = 0.0;
-            foreach (Account a in accounts) 
-            {
-                statement += "\n" + statementForAccount(a) + "\n";
-                total += a.sumTransactions();
-            }
-            statement += "\nTotal In All Accounts " + ToDollars(total);
-            return statement;
+            throw new NotImplementedException();
+            //String statement = null;
+            //statement = "Statement for " + name + "\n";
+            //double total = 0.0;
+            //foreach (Account a in accounts) 
+            //{
+            //    statement += "\n" + statementForAccount(a) + "\n";
+            //    total += a.Transactions();
+            //}
+            //statement += "\nTotal In All Accounts " + ToDollars(total);
+            //return statement;
         }
 
         private String statementForAccount(Account a) 
         {
-            String s = "";
+            throw new NotImplementedException();
+           // String s = "";
 
-           //Translate to pretty account type
-            switch(a.GetAccountType()){
-                case Account.CHECKING:
-                    s += "Checking Account\n";
-                    break;
-                case Account.SAVINGS:
-                    s += "Savings Account\n";
-                    break;
-                case Account.MAXI_SAVINGS:
-                    s += "Maxi Savings Account\n";
-                    break;
-            }
+           ////Translate to pretty account type
+           // switch(a.GetAccountType()){
+           //     case Account.CHECKING:
+           //         s += "Checking Account\n";
+           //         break;
+           //     case Account.SAVINGS:
+           //         s += "Savings Account\n";
+           //         break;
+           //     case Account.MAXI_SAVINGS:
+           //         s += "Maxi Savings Account\n";
+           //         break;
+           // }
 
-            //Now total up all the transactions
-            double total = 0.0;
-            foreach (Transaction t in a.transactions) {
-                s += "  " + (t.amount < 0 ? "withdrawal" : "deposit") + " " + ToDollars(t.amount) + "\n";
-                total += t.amount;
-            }
-            s += "Total " + ToDollars(total);
-            return s;
+           // //Now total up all the transactions
+           // double total = 0.0;
+           // foreach (Transaction t in a.transactions) {
+           //     s += "  " + (t.amount < 0 ? "withdrawal" : "deposit") + " " + ToDollars(t.amount) + "\n";
+           //     total += t.amount;
+           // }
+           // s += "Total " + ToDollars(total);
+           // return s;
         }
 
         private String ToDollars(double d)

@@ -10,14 +10,14 @@ namespace abc_bank_tests
         [TestMethod]
         public void TestApp()
         {
-            Account checkingAccount = new Account(Account.CHECKING);
-            Account savingsAccount = new Account(Account.SAVINGS);
+            Account checkingAccount = new CheckingAccount();
+            Account savingsAccount = new SavingsAccount();
 
             Customer henry = new Customer("Henry").OpenAccount(checkingAccount).OpenAccount(savingsAccount);
 
-            checkingAccount.Deposit(100.0);
-            savingsAccount.Deposit(4000.0);
-            savingsAccount.Withdraw(200.0);
+            checkingAccount.Deposit((decimal)100.0);
+            savingsAccount.Deposit((decimal)4000.0);
+            savingsAccount.Withdraw((decimal)200.0);
 
             Assert.AreEqual("Statement for Henry\n" +
                     "\n" +
@@ -36,7 +36,7 @@ namespace abc_bank_tests
         [TestMethod]
         public void TestOneAccount()
         {
-            Customer oscar = new Customer("Oscar").OpenAccount(new Account(Account.SAVINGS));
+            Customer oscar = new Customer("Oscar").OpenAccount(new SavingsAccount());
             Assert.AreEqual(1, oscar.GetNumberOfAccounts());
         }
 
@@ -44,8 +44,8 @@ namespace abc_bank_tests
         public void TestTwoAccount()
         {
             Customer oscar = new Customer("Oscar")
-                 .OpenAccount(new Account(Account.SAVINGS));
-            oscar.OpenAccount(new Account(Account.CHECKING));
+                 .OpenAccount(new SavingsAccount());
+            oscar.OpenAccount(new CheckingAccount());
             Assert.AreEqual(2, oscar.GetNumberOfAccounts());
         }
 
@@ -54,8 +54,8 @@ namespace abc_bank_tests
         public void TestThreeAccounts()
         {
             Customer oscar = new Customer("Oscar")
-                    .OpenAccount(new Account(Account.SAVINGS));
-            oscar.OpenAccount(new Account(Account.CHECKING));
+                    .OpenAccount(new SavingsAccount());
+            oscar.OpenAccount(new CheckingAccount());
             Assert.AreEqual(3, oscar.GetNumberOfAccounts());
         }
     }
