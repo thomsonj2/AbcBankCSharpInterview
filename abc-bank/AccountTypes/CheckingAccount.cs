@@ -15,7 +15,7 @@ namespace abc_bank
 
         public override decimal InterestCalculation()
         {
-            throw new NotImplementedException();
+            return AccountBalance * 0.001m / 365;
         }
     }
 }

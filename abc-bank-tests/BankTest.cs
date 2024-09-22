@@ -23,37 +23,53 @@ namespace abc_bank_tests
         }
 
         [TestMethod]
-        public void CheckingAccount() {
-            Bank bank = new Bank();
-            Account checkingAccount = new CheckingAccount();
-            Customer bill = new Customer("Bill").OpenAccount(checkingAccount);
-            bank.AddCustomer(bill);
+        public void CheckingAccount() 
+        {
+            CheckingAccount account = new CheckingAccount();
+            account.Deposit(1000);
 
-            checkingAccount.Deposit((decimal)100.00);
+            decimal expectedInterest = 1000 * 0.001m / 365;
+            decimal interest = account.InterestCalculation();
 
-            Assert.AreEqual(0.1, bank.totalInterestPaid(), DOUBLE_DELTA);
+            Assert.AreEqual(expectedInterest, interest);
         }
 
         [TestMethod]
-        public void Savings_account() {
-            Bank bank = new Bank();
-            Account checkingAccount = new SavingsAccount();
-            bank.AddCustomer(new Customer("Bill").OpenAccount(checkingAccount));
+        public void Savings_account() 
+        {
+            SavingsAccount account = new SavingsAccount();
+            account.Deposit(1500);
 
-            checkingAccount.Deposit((decimal)1500.0);
+            decimal expectedInterest = ((1000 * 0.001m) + (500 * 0.002m)) / 365;
+            decimal interest = account.InterestCalculation();
 
-            Assert.AreEqual(2.0, bank.totalInterestPaid(), DOUBLE_DELTA);
+            Assert.AreEqual(expectedInterest, interest);
         }
 
         [TestMethod]
-        public void Maxi_savings_account() {
-            Bank bank = new Bank();
-            Account checkingAccount = new MaxiSavingAccount();
-            bank.AddCustomer(new Customer("Bill").OpenAccount(checkingAccount));
+        public void Maxi_savings_account_No_Withdrawl_In_10_Days() 
+        {
+            MaxiSavingAccount account = new MaxiSavingAccount();
+            account.Deposit(2000);
+            account.Deposit(500);
 
-            checkingAccount.Deposit((decimal)3000.0);
+            decimal expectedInterest = ((1000 * 0.05m) + (1000 * 0.10m) + (500 * 0.15m)) / 365;
+            decimal interest = account.InterestCalculation();
 
-            Assert.AreEqual(170.0, bank.totalInterestPaid(), DOUBLE_DELTA);
+            Assert.AreEqual(expectedInterest, interest);
+        }
+
+        [TestMethod]
+        public void Maxi_savings_account_Recent_Withdrawl()
+        {
+            MaxiSavingAccount account = new MaxiSavingAccount();
+            account.Deposit(2000);
+            account.Withdraw(100);
+
+            decimal expectedInterest = (1900 * 0.001m / 365);
+            decimal interest = account.InterestCalculation();
+
+            Assert.AreEqual(expectedInterest, interest);
         }
     }
 }

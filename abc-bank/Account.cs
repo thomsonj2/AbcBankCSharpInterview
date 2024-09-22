@@ -23,6 +23,7 @@ namespace abc_bank
             if (amount <= 0) {
                 throw new ArgumentException("Deposit amount must be greater than zero");
             } else {
+                AccountBalance += amount;
                 Transactions.Add(new Transaction(amount, TransactionType.Deposit, DateProvider.getInstance().Now()));
             }
         }
@@ -32,36 +33,13 @@ namespace abc_bank
             if (amount <= 0) {
                 throw new ArgumentException("Withdraw amount must be greater than zero");
             } else {
+                AccountBalance -= amount;
                 Transactions.Add(new Transaction(amount, TransactionType.Withdrawal, DateProvider.getInstance().Now()));
             }
         }
 
         public abstract decimal InterestCalculation();
         public abstract AccountType getAccountType();
-        //TODO: move logic to concrete classes
-        //    public double InterestEarned() 
-        //    {
-        //        double amount = sumTransactions();
-        //        switch(accountType){
-        //            case SAVINGS:
-        //                if (amount <= 1000)
-        //                    return amount * 0.001;
-        //                else
-        //                    return 1 + (amount-1000) * 0.002;
-        ////            case SUPER_SAVINGS:
-        ////                if (amount <= 4000)
-        ////                    return 20;
-        //            case MAXI_SAVINGS:
-        //                if (amount <= 1000)
-        //                    return amount * 0.02;
-        //                if (amount <= 2000)
-        //                    return 20 + (amount-1000) * 0.05;
-        //                return 70 + (amount-2000) * 0.1;
-        //            default:
-        //                return amount * 0.001;
-        //        }
-        //    }
-
 
         public double sumTransactions()
         {
