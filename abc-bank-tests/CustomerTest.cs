@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using abc_bank;
+using System.Text;
 
 namespace abc_bank_tests
 {
@@ -15,22 +16,25 @@ namespace abc_bank_tests
 
             Customer henry = new Customer("Henry").OpenAccount(checkingAccount).OpenAccount(savingsAccount);
 
-            checkingAccount.Deposit((decimal)100.0);
-            savingsAccount.Deposit((decimal)4000.0);
-            savingsAccount.Withdraw((decimal)200.0);
+            checkingAccount.Deposit((decimal)100.0m);
+            savingsAccount.Deposit((decimal)4000.0m);
+            savingsAccount.Withdraw((decimal)200.0m);
+            DateTime currentDate = DateProvider.getInstance().Now();
 
-            Assert.AreEqual("Statement for Henry\n" +
-                    "\n" +
-                    "Checking Account\n" +
-                    "  deposit $100.00\n" +
-                    "Total $100.00\n" +
-                    "\n" +
-                    "Savings Account\n" +
-                    "  deposit $4,000.00\n" +
-                    "  withdrawal $200.00\n" +
-                    "Total $3,800.00\n" +
-                    "\n" +
-                    "Total In All Accounts $3,900.00", henry.GetStatement());
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(string.Format("Statement for Henry"));
+            sb.AppendLine(string.Format("Type: Checking, Balance: 100.00"));
+            sb.AppendLine("    Transactions:");
+            sb.AppendLine(string.Format("    - Date: {0}, Amount 100.00, Type: Deposit", currentDate.ToString("yyyy-MM-dd")));
+            sb.AppendLine(string.Format("Type: Savings, Balance: 3800.00"));
+            sb.AppendLine("    Transactions:");
+            sb.AppendLine(string.Format("    - Date: {0}, Amount 4000.00, Type: Deposit", currentDate.ToString("yyyy-MM-dd")));
+            sb.AppendLine(string.Format("    - Date: {0}, Amount 200.00, Type: Withdrawal", currentDate.ToString("yyyy-MM-dd")));
+            string expected = sb.ToString();
+            string actual = henry.GetStatement();
+
+            Assert.AreEqual(expected, actual);
+        
         }
 
         [TestMethod]
@@ -50,12 +54,12 @@ namespace abc_bank_tests
         }
 
         [TestMethod]
-        [Ignore]
         public void TestThreeAccounts()
         {
             Customer oscar = new Customer("Oscar")
                     .OpenAccount(new SavingsAccount());
             oscar.OpenAccount(new CheckingAccount());
+            oscar.OpenAccount(new MaxiSavingAccount());
             Assert.AreEqual(3, oscar.GetNumberOfAccounts());
         }
     }

@@ -10,7 +10,7 @@ namespace abc_bank
     {
         public override AccountType getAccountType()
         {
-            return AccountType.MaxiSavingsAccount;
+            return AccountType.MaxiSavings;
         }
 
         public override decimal InterestCalculation()

@@ -10,7 +10,7 @@ namespace abc_bank
     {
         public override AccountType getAccountType()
         {
-            return AccountType.CheckingAccount;
+            return AccountType.Checking;
         }
 
         public override decimal InterestCalculation()

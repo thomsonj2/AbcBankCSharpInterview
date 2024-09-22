@@ -43,50 +43,23 @@ namespace abc_bank
 
         public String GetStatement() 
         {
-            throw new NotImplementedException();
-            //String statement = null;
-            //statement = "Statement for " + name + "\n";
-            //double total = 0.0;
-            //foreach (Account a in accounts) 
-            //{
-            //    statement += "\n" + statementForAccount(a) + "\n";
-            //    total += a.Transactions();
-            //}
-            //statement += "\nTotal In All Accounts " + ToDollars(total);
-            //return statement;
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(string.Format("Statement for {0}", GetName()));
+            foreach (var account in accounts)
+            {
+                sb.AppendLine(string.Format("Type: {0}, Balance: {1:F2}", account.getAccountType().ToString(), account.AccountBalance));
+                sb.AppendLine("    Transactions:");
+                foreach (var transaction in account.Transactions)
+                {
+                    sb.AppendLine(string.Format("    - Date: {0}, Amount {1:F2}, Type: {2}", transaction.TimeStamp.ToString("yyyy-MM-dd"), transaction.Amount, transaction.Type.ToString()));
+                }
+            }
+            return sb.ToString();
         }
 
-        private String statementForAccount(Account a) 
-        {
-            throw new NotImplementedException();
-           // String s = "";
-
-           ////Translate to pretty account type
-           // switch(a.GetAccountType()){
-           //     case Account.CHECKING:
-           //         s += "Checking Account\n";
-           //         break;
-           //     case Account.SAVINGS:
-           //         s += "Savings Account\n";
-           //         break;
-           //     case Account.MAXI_SAVINGS:
-           //         s += "Maxi Savings Account\n";
-           //         break;
-           // }
-
-           // //Now total up all the transactions
-           // double total = 0.0;
-           // foreach (Transaction t in a.transactions) {
-           //     s += "  " + (t.amount < 0 ? "withdrawal" : "deposit") + " " + ToDollars(t.amount) + "\n";
-           //     total += t.amount;
-           // }
-           // s += "Total " + ToDollars(total);
-           // return s;
-        }
-
-        private String ToDollars(double d)
-        {
-            return String.Format("$%,.2f", Math.Abs(d));
-        }
+        //private String ToDollars(double d)
+        //{
+        //    return String.Format("$%,.2f", Math.Abs(d));
+        //}
     }
 }

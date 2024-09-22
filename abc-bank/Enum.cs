@@ -15,8 +15,8 @@ namespace abc_bank
 
     public enum AccountType
     {
-        CheckingAccount, 
-        SavingsAccount, 
-        MaxiSavingsAccount
+        Checking, 
+        Savings, 
+        MaxiSavings
     }
 }
